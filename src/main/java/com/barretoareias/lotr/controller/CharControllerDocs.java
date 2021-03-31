@@ -1,7 +1,6 @@
 package com.barretoareias.lotr.controller;
 
 import com.barretoareias.lotr.dto.CharDTO;
-import com.barretoareias.lotr.entity.Char;
 import com.barretoareias.lotr.exception.CharAlreadyCreatedException;
 import com.barretoareias.lotr.exception.CharNotFoundException;
 

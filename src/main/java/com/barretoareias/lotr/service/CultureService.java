@@ -1,7 +1,10 @@
 package com.barretoareias.lotr.service;
 
-import com.barretoareias.lotr.entity.Culture;
+import java.util.stream.Collectors;
+
+import com.barretoareias.lotr.dto.CultureDTO;
 import com.barretoareias.lotr.exception.CultureNotFoundException;
+import com.barretoareias.lotr.mapper.CultureMapper;
 import com.barretoareias.lotr.exception.CultureAlreadyCreatedException;
 import com.barretoareias.lotr.repository.CultureRepository;
 
@@ -17,35 +20,39 @@ import reactor.core.publisher.Mono;
 public class CultureService {
     
     private final CultureRepository repository;
+    private final CultureMapper mapper = CultureMapper.INSTANCE;
 
-    public Flux<Culture> findAll(){
+    public Flux<CultureDTO> findAll(){
         var list = repository.findAll();
-        return Flux.fromIterable(list);
+        var listDTO = list.stream().map(mapper::toDTO).collect(Collectors.toList());
+        return Flux.fromIterable(listDTO);
     }
 
-    public Mono<Culture> createCulture(Culture entity) throws CultureAlreadyCreatedException{
+    public Mono<CultureDTO> createCulture(CultureDTO dto) throws CultureAlreadyCreatedException{
+        var entity = mapper.toEntity(dto);
         var entityName = entity.getName();
         if(ifExistsByName(entityName)){
             throw new CultureAlreadyCreatedException(entityName);
         }
-        var returned = repository.save(entity);
-        return Mono.justOrEmpty(returned);
+        var newEntity = repository.save(entity);
+        var returned = repository.findById(newEntity.getId());
+        return Mono.justOrEmpty(mapper.toDTO(returned.get()));
     }
 
-    public Mono<Culture> findByName(String name) throws CultureNotFoundException{
+    public Mono<CultureDTO> findByName(String name) throws CultureNotFoundException{
         if(!ifExistsByName(name)){
             throw new CultureNotFoundException(name);
         }
         var entity = repository.findByName(name);
-        return Mono.justOrEmpty(entity);
+        return Mono.justOrEmpty(mapper.toDTO(entity.get()));
     }
 
-    public Mono<Culture> findById(Long id) throws CultureNotFoundException{
+    public Mono<CultureDTO> findById(Long id) throws CultureNotFoundException{
         if(!ifExistsById(id)){
             throw new CultureNotFoundException(id);
         }
         var entity = repository.findById(id);
-        return Mono.justOrEmpty(entity);
+        return Mono.justOrEmpty(mapper.toDTO(entity.get()));
     }
 
     public Mono<Boolean> deleteById(Long id) throws CultureNotFoundException{
@@ -56,14 +63,15 @@ public class CultureService {
         return Mono.just(true);
     }
 
-    public Mono<Culture> updateCulture(Long id,Culture entity) throws CultureNotFoundException{
+    public Mono<CultureDTO> updateCulture(Long id,CultureDTO dto) throws CultureNotFoundException{
+        var entity = mapper.toEntity(dto);
         if(!ifExistsById(id)){
             throw new CultureNotFoundException(id);
         }
         entity.setId(id);
         repository.save(entity);
         var returned = repository.findById(id);
-        return Mono.justOrEmpty(returned);
+        return Mono.justOrEmpty(mapper.toDTO(returned.get()));
     }
 
     private boolean ifExistsByName(String name){

@@ -3,7 +3,6 @@ package com.barretoareias.lotr.service;
 import java.util.stream.Collectors;
 
 import com.barretoareias.lotr.dto.CharDTO;
-import com.barretoareias.lotr.entity.Char;
 import com.barretoareias.lotr.exception.CharAlreadyCreatedException;
 import com.barretoareias.lotr.exception.CharNotFoundException;
 import com.barretoareias.lotr.mapper.CharMapper;

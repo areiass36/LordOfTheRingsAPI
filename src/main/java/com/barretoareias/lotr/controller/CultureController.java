@@ -14,7 +14,9 @@ import lombok.AllArgsConstructor;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import com.barretoareias.lotr.entity.Culture;
+import javax.validation.Valid;
+
+import com.barretoareias.lotr.dto.CultureDTO;
 import com.barretoareias.lotr.exception.CultureAlreadyCreatedException;
 import com.barretoareias.lotr.exception.CultureNotFoundException;
 import com.barretoareias.lotr.service.CultureService;
@@ -28,25 +30,25 @@ public class CultureController implements CultureControllerDocs{
 
     @Override
     @PostMapping
-    public Mono<Culture> createCulture(@RequestBody Culture entity) throws CultureAlreadyCreatedException{
-        return cultureService.createCulture(entity);
+    public Mono<CultureDTO> createCulture(@RequestBody @Valid CultureDTO dto) throws CultureAlreadyCreatedException{
+        return cultureService.createCulture(dto);
     }
 
     @Override
     @GetMapping
-    public Flux<Culture> findAll() {
+    public Flux<CultureDTO> findAll() {
         return cultureService.findAll();
     }
 
     @Override
     @GetMapping("/name/{name}")
-    public Mono<Culture> findByName(@PathVariable String name) throws CultureNotFoundException{
+    public Mono<CultureDTO> findByName(@PathVariable String name) throws CultureNotFoundException{
         return cultureService.findByName(name);
     }
 
     @Override
     @GetMapping("/id/{id}")
-    public Mono<Culture> findById(@PathVariable Long id)throws CultureNotFoundException {
+    public Mono<CultureDTO> findById(@PathVariable Long id)throws CultureNotFoundException {
         return cultureService.findById(id);
     }
 
@@ -58,8 +60,8 @@ public class CultureController implements CultureControllerDocs{
 
     @Override
     @PutMapping("/id/{id}")
-    public Mono<Culture> updateCulture(@PathVariable Long id,@RequestBody Culture entity) throws CultureNotFoundException {
-        return cultureService.updateCulture(id, entity);
+    public Mono<CultureDTO> updateCulture(@PathVariable Long id,@RequestBody @Valid CultureDTO dto) throws CultureNotFoundException {
+        return cultureService.updateCulture(id, dto);
     }
     
 }

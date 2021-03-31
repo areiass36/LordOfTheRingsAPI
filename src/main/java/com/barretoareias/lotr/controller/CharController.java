@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 
 import com.barretoareias.lotr.dto.CharDTO;
-import com.barretoareias.lotr.entity.Char;
 import com.barretoareias.lotr.exception.CharAlreadyCreatedException;
 import com.barretoareias.lotr.exception.CharNotFoundException;
 
