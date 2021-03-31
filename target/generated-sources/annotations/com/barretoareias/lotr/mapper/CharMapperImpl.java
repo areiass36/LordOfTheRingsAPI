@@ -7,7 +7,7 @@ import javax.annotation.processing.Generated;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2021-03-31T08:27:38-0300",
+    date = "2021-03-31T19:01:01-0300",
     comments = "version: 1.4.2.Final, compiler: Eclipse JDT (IDE) 1.3.1200.v20200916-0645, environment: Java 15.0.2 (AdoptOpenJDK)"
 )
 public class CharMapperImpl implements CharMapper {
