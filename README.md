@@ -2,7 +2,7 @@
 
 This is an API I developed for my Java bootcamp.
 
-The propose of this project is to store data about lotr characters, like name, title, birth, death an so on.
+The propose of this project is to store data about lotr characters, like name, title, birth, death and so on.
 
 It was the first time I ever used Spring Webflux to develop a reactive api and I really dig doing it.
 
